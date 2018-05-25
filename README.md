@@ -20,7 +20,7 @@ Basically, JUSTBrowser is under GPLv3 but a few file is under their lincense.
  <img src="https://github.com/lenchan139/JUSTBrowser/blob/master/screenshots/photo_2017-04-15_16-52-36.jpg?raw=true" width="280"> <img src="https://github.com/lenchan139/JUSTBrowser/blob/master/screenshots/photo_2017-04-15_16-52-32.jpg?raw=true" width="280">
 ## Download
 You can download this application from Play Store or Aptoide. Aptoide may faster than the Play Store.
-- [Play Store](https://play.google.com/store/apps/details?id=org.lenchan139.lightbrowser)
+- [Play Store](https://play.google.com/store/apps/details?id=org.lenchan139.justbrowser)
 - [APK file](https://github.com/lenchan139/JUSTBrowser/blob/master/app/release/app-release.apk?raw=true)
 
 ## Feedback
