@@ -10,7 +10,7 @@ Basically, JUSTBrowser is under GPLv3 but a few file is under their lincense.
   You can go to (http://www.apache.org/licenses/LICENSE-2.0) view the full content of the license. 
   - Droidparts && ClearableEditText  
      Copyright 2016 Alex Yanchenko  
-  - ArrayPagerAdapter
+  - ArrayPagerAdapter    
      Takaaki Nakama
      
 #### - GNU General Public License v3.0
