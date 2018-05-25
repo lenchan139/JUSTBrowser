@@ -1,4 +1,4 @@
-package org.lenchan139.justbrowser.History
+package org.lenchan139.justbrowser.CustomScript
 
 /**
  * Created by len on 14/4/2017.

@@ -1,10 +1,7 @@
 package org.lenchan139.justbrowser.CustomScript
 
-import android.R
 import android.content.Context
-import org.lenchan139.justbrowser.History.CustomScriptItem
 import java.util.ArrayList
-import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 /**
@@ -34,7 +31,7 @@ class CustomScriptUtil{
     fun delScript(context: Context,title: String){
         CustomScriptSQLiteController(context).delScript(title)
     }
-    fun getScript(context: Context,title: String):CustomScriptItem{
+    fun getScript(context: Context,title: String): CustomScriptItem {
         return CustomScriptSQLiteController(context).getScript(title)[0]
 
     }

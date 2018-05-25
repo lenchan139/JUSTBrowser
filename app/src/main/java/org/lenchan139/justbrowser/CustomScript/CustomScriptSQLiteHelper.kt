@@ -1,8 +1,9 @@
-package org.lenchan139.justbrowser.History
+package org.lenchan139.justbrowser.CustomScript
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import org.lenchan139.justbrowser.History.HistorySQLiteHelper
 
 /**
  * Created by len on 14/4/2017.

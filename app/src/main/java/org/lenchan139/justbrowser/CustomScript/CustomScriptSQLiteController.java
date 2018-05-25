@@ -3,20 +3,14 @@ package org.lenchan139.justbrowser.CustomScript;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
-import org.lenchan139.justbrowser.History.CustomScriptItem;
-import org.lenchan139.justbrowser.History.CustomScriptSQLiteHelper;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Objects;
 
 /**

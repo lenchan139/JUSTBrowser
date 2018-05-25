@@ -8,7 +8,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
 
-import org.lenchan139.justbrowser.History.CustomScriptItem
+import org.lenchan139.justbrowser.CustomScript.CustomScriptItem
 import org.lenchan139.justbrowser.History.HistroySQLiteController
 
 import java.util.ArrayList
