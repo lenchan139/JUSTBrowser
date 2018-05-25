@@ -19,7 +19,7 @@ class UrlFromExternalActivity : AppCompatActivity() {
         if (intent.data != null) {
             Log.v(getString(R.string.KEY_INURL_INTENT), intent.data.toString())
             inURL = intent.data.toString()
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, BrowseActivity::class.java)
             intent.putExtra("InURL", inURL)
             intent.putExtra("InURLFromExternal", true)
             startActivity(intent)

@@ -1,0 +1,90 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="org.lenchan139.lightbrowser.BrowseActivity">
+
+    <item android:id="@+id/menu_home"
+        android:title="@string/menu_home"
+        android:icon="@android:drawable/ic_btn_speak_now"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/menu_refresh"
+        android:title="@string/menu_refresh"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/menu_share"
+        android:title="@string/menu_share"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/menu_external"
+        android:title="@string/menu_open_with"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item android:title="@string/menu_ncbookmarks"
+
+        android:orderInCategory="100">
+        <menu>
+            <item android:id="@+id/menu_add_NCBookmarks"
+                android:title="@string/menu_string_add_ncbookmark"
+                android:orderInCategory="100"
+                android:visible="true"
+                app:showAsAction="never" />
+
+            <item android:id="@+id/menu_view_ncbookmarks"
+                android:title="@string/menu_string_view_ncbookmarks"
+                android:orderInCategory="100"
+                android:visible="true"
+                app:showAsAction="never" />
+
+        </menu>
+    </item>
+
+    <item android:id="@+id/menu_tab"
+        android:title="@string/menu_switch_tab"
+        android:orderInCategory="100"
+        android:visible="true"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/menu_history"
+        android:title="@string/menu_history"
+        android:orderInCategory="100"
+        android:visible="true"
+        app:showAsAction="never" />
+
+    <item android:title="Tools"
+
+        android:orderInCategory="100">
+        <menu>
+            <item android:id="@+id/menu_find"
+                android:title="@string/find"
+                android:orderInCategory="100"
+                android:visible="true"
+                app:showAsAction="never" />
+            <item android:id="@+id/menu_custom_script"
+                android:title="Custom Script"
+                android:orderInCategory="100"
+                android:visible="true"
+                app:showAsAction="never" />
+
+            <item android:id="@+id/menu_desktop_mode_switch"
+                android:title="Mobile/Desktop"
+                android:orderInCategory="100"
+                android:visible="true"
+                app:showAsAction="never" />
+
+        </menu>
+    </item>
+    <item android:id="@+id/action_settings"
+        android:title="@string/menu_settings"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/menu_exit"
+        android:title="@string/menu_exit"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+</menu>

@@ -34,7 +34,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import org.lenchan139.lightbrowser.CustomScript.CustomScriptUtil
 import java.net.URL
+/*
+    Description:
+     This is old browse interface that has been dropped.
+     lease Remember this acttivity just for reference and do
+     not use it for real use since there may cause any problem.
 
+ */
 class MainActivity : AppCompatActivity() {
     private lateinit var btnGo: Button
     private lateinit var editText: ClearableEditText

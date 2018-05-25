@@ -26,6 +26,7 @@ import java.util.ArrayList
 import android.app.ActivityManager
 import android.support.v4.app.FragmentActivity
 import android.util.Log
+import kotlinx.android.synthetic.main.activity_search.*
 
 
 class SearchActivity : AppCompatActivity() {
@@ -43,7 +44,6 @@ class SearchActivity : AppCompatActivity() {
         hList = findViewById(R.id.list) as ListView
         editText = findViewById(R.id.editText) as EditText
         editText.setText(intent.getStringExtra("para"))
-        val fab = findViewById(R.id.fab) as FloatingActionButton
         fab.setOnClickListener {
             hideKeybord()
             finish()
@@ -112,7 +112,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun onEnter() {
-        val intent = Intent(this@SearchActivity, MainActivity::class.java)
+        val intent = Intent(this@SearchActivity, BrowseActivity::class.java)
         intent.putExtra("InURL", editText.text.toString())
         startActivity(intent)
         finish()

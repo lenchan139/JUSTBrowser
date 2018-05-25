@@ -5,11 +5,11 @@ android {
     compileSdkVersion 27
     buildToolsVersion '27.0.3'
     defaultConfig {
-        applicationId "org.lenchan139.lightbrowser"
+        applicationId 'org.lenchan139.justbrowser'
         minSdkVersion 21
-        targetSdkVersion 26
-        versionCode 57
-        versionName 'v57'
+        targetSdkVersion 27
+        versionCode 1
+        versionName 'v1'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -41,7 +41,6 @@ dependencies {
     implementation 'com.android.support:support-v4:27.1.1'
     testImplementation 'junit:junit:4.12'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-
 }
 repositories {
     mavenCentral()
