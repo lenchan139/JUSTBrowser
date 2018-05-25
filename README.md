@@ -1,5 +1,6 @@
 # JUST Browser
 This is a Veeeeeeeeerrrrrry lightweight browser using webview. I made it because my needs.  
+Rewrite from Light Browser with Fragment to reduce resource usage.
 
 ## Licenses
 Basically, JUSTBrowser is under GPLv3 but a few file is under their lincense.
