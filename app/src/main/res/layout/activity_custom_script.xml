@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.lenchan139.lightbrowser.CustomScriptActivity">
+    tools:context="org.lenchan139.justbrowser.CustomScriptActivity">
 
 
 
@@ -12,7 +12,8 @@
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         tools:layout_editor_absoluteX="-16dp"
-        tools:layout_editor_absoluteY="0dp">
+        tools:layout_editor_absoluteY="0dp"
+        tools:ignore="MissingConstraints">
 
         <LinearLayout
             android:layout_width="match_parent"

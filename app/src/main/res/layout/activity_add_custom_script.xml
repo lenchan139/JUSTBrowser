@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.lenchan139.lightbrowser.AddOrEditCustomScriptActivity">
+    tools:context="org.lenchan139.justbrowser.AddOrEditCustomScriptActivity">
 <ScrollView
     android:layout_width="368dp"
     android:layout_height="495dp"
     tools:layout_editor_absoluteY="8dp"
-    tools:layout_editor_absoluteX="8dp">
+    tools:layout_editor_absoluteX="8dp"
+    tools:ignore="MissingConstraints">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

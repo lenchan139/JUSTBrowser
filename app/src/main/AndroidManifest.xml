@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.lenchan139.lightbrowser">
+    package="org.lenchan139.justbrowser">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme">
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="org.lenchan139.lightbrowser.fileProvider"
+            android:authorities="org.lenchan139.justbrowser.fileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
