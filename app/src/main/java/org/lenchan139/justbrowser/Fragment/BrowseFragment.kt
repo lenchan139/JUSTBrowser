@@ -43,6 +43,7 @@ class BrowseFragment : Fragment() {
     lateinit var settings : SharedPreferences
     lateinit var commonStrings : CommonStrings
     lateinit var activity : BrowseActivity
+    var section_number: Int = -1
     private var back = false
     var webViewState : Bundle? = null
     var isInit = false
@@ -80,7 +81,6 @@ class BrowseFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        webView.onPause()
         webViewState = Bundle()
         webView.saveState(webViewState)
     }
@@ -90,13 +90,10 @@ class BrowseFragment : Fragment() {
         val homeUrl = settings.getString(commonStrings.TAG_pref_home(), commonStrings.URL_DDG())
 
         if (webViewState != null) {
-            //Fragment实例并未被销毁, 重新create view
             webView.restoreState(webViewState);
         } else if (savedInstanceState != null) {
-            //Fragment实例被销毁重建
             webView.restoreState(savedInstanceState);
         } else {
-            //全新Fragment
             loadUrl(homeUrl)
         }
     }
@@ -146,6 +143,7 @@ class BrowseFragment : Fragment() {
         fun newInstance(sectionNumber: Int): BrowseFragment {
             val fragment = BrowseFragment()
             val args = Bundle()
+            fragment.section_number = sectionNumber
             args.putInt(ARG_SECTION_NUMBER, sectionNumber)
             fragment.arguments = args
             return fragment
@@ -296,7 +294,7 @@ class BrowseFragment : Fragment() {
                 loadingFinish = false
                 super.onPageStarted(view, url, favicon)
                 webView.requestFocus()
-                activity.editText.setText(url)
+                activity.updateEditTextFromCurrentPage(section_number,url)
                 Log.v("onPageLoadUrl",url)
                 if (isUrlVaildRedirect(url!!)) {
                     //addToBack(url);
@@ -304,7 +302,7 @@ class BrowseFragment : Fragment() {
                     back = true
                     view!!.stopLoading()
                     activity.runToExternal(url)
-                    activity.editText.setText(webView.url)
+                    activity.updateEditTextFromCurrentPage(section_number,view.url)
                 }
 
                 var cm: String? = CookieManager.getInstance().getCookie(url)

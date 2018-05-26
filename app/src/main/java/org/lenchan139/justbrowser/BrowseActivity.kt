@@ -36,7 +36,7 @@ import org.lenchan139.justbrowser.Adapter.BrowseStateFragmentPageApdapter
 import org.lenchan139.justbrowser.Class.*
 import org.lenchan139.justbrowser.Fragment.BrowseFragment
 import java.io.File
-import java.util.ArrayList
+import java.util.*
 
 class BrowseActivity : AppCompatActivity() {
     val FILECHOOSER_RESULTCODE = 859
@@ -316,11 +316,17 @@ class BrowseActivity : AppCompatActivity() {
         dialog.create().show()
     }
 
-    fun updateEditTextFromCurrentPage(){
-        editText.setText(arrBrowseFragment.get(viewPager.currentItem).rootView.webView.url)
+    fun updateEditTextFromCurrentPage(section_number:Int, url:String?):Boolean{
+        if(section_number == viewPager.currentItem){
+            editText.setText(url)
+            return true
+        }else{
+            return false
+        }
+
     }
     fun loadUrlFromEditTextToFragment() {
-        arrBrowseFragment.get(viewPager.currentItem).webView.loadUrl(editText.text.toString())
+        arrBrowseFragment.get(viewPager.currentItem).loadUrl(editText.text.toString())
 
 
     }
@@ -411,7 +417,7 @@ class BrowseActivity : AppCompatActivity() {
 
             }
             override fun onPageSelected(position: Int) {
-                updateEditTextFromCurrentPage()
+                updateEditTextFromCurrentPage(viewPager.currentItem,arrBrowseFragment.get(viewPager.currentItem).getWebUrl())
             }
 
         })
