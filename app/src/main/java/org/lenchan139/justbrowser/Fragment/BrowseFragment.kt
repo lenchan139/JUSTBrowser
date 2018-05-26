@@ -20,6 +20,7 @@ import android.view.ViewGroup
 import android.webkit.*
 import android.widget.ProgressBar
 import android.widget.Toast
+import icepick.Icepick
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.fragment_browse.*
@@ -43,24 +44,66 @@ class BrowseFragment : Fragment() {
     lateinit var commonStrings : CommonStrings
     lateinit var activity : BrowseActivity
     private var back = false
+    var webViewState : Bundle? = null
+    var isInit = false
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(R.layout.fragment_browse, container, false)
         activity = getActivity() as BrowseActivity
         commonStrings = CommonStrings(activity)
         settings = PreferenceManager.getDefaultSharedPreferences(activity)
+        if(savedInstanceState != null){
+            Icepick.restoreInstanceState(this,savedInstanceState)
+        }else{
 
-
+            Log.v("TaskIdOfFragment",this.toString())
+        }
+        if(!isInit){
+            activity.arrBrowseFragment.add(this)
+            isInit = true
+        }
         initWebView(rootView.webView).requestFocus()
 
-        activity.arrBrowseFragment.add(this)
         return rootView
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        rootView.webView.saveState(outState)
+        Icepick.saveInstanceState(this,outState)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        rootView.webView.onPause()
+        webViewState = Bundle()
+        rootView.webView.saveState(webViewState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val homeUrl = settings.getString(commonStrings.TAG_pref_home(), commonStrings.URL_DDG())
-        loadUrl(homeUrl)
+
+        if (webViewState != null) {
+            //Fragment实例并未被销毁, 重新create view
+            rootView.webView.restoreState(webViewState);
+        } else if (savedInstanceState != null) {
+            //Fragment实例被销毁重建
+            rootView.webView.restoreState(savedInstanceState);
+        } else {
+            //全新Fragment
+            loadUrl(homeUrl)
+        }
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        activity.arrBrowseFragment.remove(this)
     }
 
     fun getWebTitle():String{

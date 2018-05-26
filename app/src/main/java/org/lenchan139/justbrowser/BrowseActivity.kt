@@ -43,7 +43,6 @@ class BrowseActivity : AppCompatActivity() {
     val BROWSE_ITEM_KEYSTRING = "BROWSE_ITEM_KEYSTRING"
     lateinit var browseAdapter : BrowseStateFragmentPageApdapter
     var arrBrowseFragment = ArrayList<BrowseFragment>()
-    private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
 
     lateinit var settings : SharedPreferences
     lateinit var commonStrings : CommonStrings
@@ -60,7 +59,7 @@ class BrowseActivity : AppCompatActivity() {
         val list = ArrayList<String>()
         list.add(BROWSE_ITEM_KEYSTRING)
         browseAdapter = BrowseStateFragmentPageApdapter(supportFragmentManager,list)
-        container.adapter = browseAdapter
+        viewPager.adapter = browseAdapter
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -90,7 +89,7 @@ class BrowseActivity : AppCompatActivity() {
             val intent = Intent(this@BrowseActivity, SearchActivity::class.java)
             intent.putExtra("para", editText.text.toString())
             startActivity(intent)
-            arrBrowseFragment.get(container.currentItem).rootView.webView.requestFocus()
+            arrBrowseFragment.get(viewPager.currentItem).rootView.webView.requestFocus()
         }
         btnFindBack.setOnClickListener {
             getCurrentFragment().webView.findNext(false)
@@ -195,7 +194,7 @@ class BrowseActivity : AppCompatActivity() {
         var items = Array<String>(arrBrowseFragment.size, { "" })
         for ((i, item) in arrBrowseFragment.withIndex()) {
             val w = item.getCurrWebView()
-            if(i==container.currentItem) {
+            if(i==viewPager.currentItem) {
                 items.set(i, "☒ " + w.title + "\n     " + w.url)
             }else{
                 items.set(i, "☒ " + w.title + "\n     " + w.url)
@@ -204,7 +203,6 @@ class BrowseActivity : AppCompatActivity() {
         var dialog = AlertDialog.Builder(this).setTitle("Delete Tab...")
                 .setItems(items) { dialog, which ->
                     browseAdapter.remove(which)
-                    arrBrowseFragment.removeAt(which)
                     updateSwitchCount()
                 }
                 .create()
@@ -276,7 +274,7 @@ class BrowseActivity : AppCompatActivity() {
     }
 
     fun getCurrentFragment():BrowseFragment{
-        return arrBrowseFragment.get(container.currentItem)
+        return arrBrowseFragment.get(viewPager.currentItem)
     }
 
     fun shareCurrPage() {
@@ -317,8 +315,12 @@ class BrowseActivity : AppCompatActivity() {
 
         dialog.create().show()
     }
+
+    fun updateEditTextFromCurrentPage(){
+        editText.setText(arrBrowseFragment.get(viewPager.currentItem).rootView.webView.url)
+    }
     fun loadUrlFromEditTextToFragment() {
-        var webView = arrBrowseFragment.get(container.currentItem)
+        var webView = arrBrowseFragment.get(viewPager.currentItem)
         val temp = editText.text.toString().trim { it <= ' ' }
         if (temp.startsWith("javascript:")) {
             webView.loadUrl(temp)
@@ -376,11 +378,11 @@ class BrowseActivity : AppCompatActivity() {
     }
     fun switchTab(activity:Activity) {
         updateSwitchCount()
-        var items = Array<String>(browseAdapter.count, { "" })
+        var items = Array<String>(arrBrowseFragment.size, { "" })
         for (i in 0..arrBrowseFragment.size-1) {
 
              val w = arrBrowseFragment.get(i).rootView.webView
-            if(i==container.currentItem) {
+            if(i==viewPager.currentItem) {
                 items.set(i, "▶" + w.title + "\n" + w.url)
             }else{
                 items.set(i, "▷" + w.title + "\n" + w.url)
@@ -388,18 +390,22 @@ class BrowseActivity : AppCompatActivity() {
         }
         var dialog = AlertDialog.Builder(this).setTitle("Tabs:")
                 .setItems(items) { dialog, which ->
-                    container.setCurrentItem(which)
+                    viewPager.setCurrentItem(which)
                     updateSwitchCount()
                 }
                 .setPositiveButton("New", DialogInterface.OnClickListener { dialog, which ->
-                    browseAdapter.add(BROWSE_ITEM_KEYSTRING)
-                    updateSwitchCount()
+                    addTab()
                 }).create()
         dialog.show()
 
 
 
 
+    }
+    fun addTab(){
+        browseAdapter.add(BROWSE_ITEM_KEYSTRING)
+        updateSwitchCount()
+        viewPager.setCurrentItem(arrBrowseFragment.size-1)
     }
     fun initInUrl(){
         val inUrl = intent.getStringExtra(getString(R.string.KEY_INURL_INTENT))
@@ -408,19 +414,6 @@ class BrowseActivity : AppCompatActivity() {
 
         } else {
 
-        }
-    }
-    inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
-
-        override fun getItem(position: Int): Fragment {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return BrowseFragment.newInstance(position + 1)
-        }
-
-        override fun getCount(): Int {
-            // Show 3 total pages.
-            return 3
         }
     }
 
