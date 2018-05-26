@@ -46,6 +46,7 @@ class BrowseFragment : Fragment() {
     private var back = false
     var webViewState : Bundle? = null
     var isInit = false
+    lateinit var webView : WebViewOverride
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(R.layout.fragment_browse, container, false)
@@ -62,14 +63,14 @@ class BrowseFragment : Fragment() {
             activity.arrBrowseFragment.add(this)
             isInit = true
         }
-        initWebView(rootView.webView).requestFocus()
+        webView = initWebView(rootView.webView)
 
         return rootView
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        rootView.webView.saveState(outState)
+        webView.saveState(outState)
         Icepick.saveInstanceState(this,outState)
     }
 
@@ -79,9 +80,9 @@ class BrowseFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        rootView.webView.onPause()
+        webView.onPause()
         webViewState = Bundle()
-        rootView.webView.saveState(webViewState)
+        webView.saveState(webViewState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -90,10 +91,10 @@ class BrowseFragment : Fragment() {
 
         if (webViewState != null) {
             //Fragment实例并未被销毁, 重新create view
-            rootView.webView.restoreState(webViewState);
+            webView.restoreState(webViewState);
         } else if (savedInstanceState != null) {
             //Fragment实例被销毁重建
-            rootView.webView.restoreState(savedInstanceState);
+            webView.restoreState(savedInstanceState);
         } else {
             //全新Fragment
             loadUrl(homeUrl)
@@ -107,13 +108,29 @@ class BrowseFragment : Fragment() {
     }
 
     fun getWebTitle():String{
-        return rootView.webView.title
+        return webView.title
     }
     fun getWebUrl():String{
-        return rootView.webView.url
+        return webView.url
     }
     fun loadUrl (url:String){
-        rootView.webView.loadUrl(url)
+        val temp = url.trim { it <= ' ' }
+        val webView = webView
+        if (temp.startsWith("javascript:")) {
+            webView.loadUrl(temp)
+            editText.setText(webView.url)
+
+        } else if (temp.startsWith("https://") || temp.startsWith("http://")) {
+            webView.loadUrl(temp)
+        } else if (temp.indexOf(":") >= 1) {
+            activity.runToExternal(temp)
+        } else if (!(temp.contains(".") && !temp.contains(" "))) {
+            webView.loadUrl(settings.getString(commonStrings.TAG_pref_Search_Engine_Url(),
+                    commonStrings.ARRAY_pref_Search_Engine_Default().get(0).url).replace("!@keywoard",temp))
+        } else {
+            webView.loadUrl("http://" + temp)
+        }
+
     }
     companion object {
         /**
@@ -141,7 +158,7 @@ class BrowseFragment : Fragment() {
             return false
         }
     }
-    fun getCurrWebView():WebViewOverride{return rootView.webView}
+    fun getCurrWebView():WebViewOverride{return webView}
     fun initWebView(webView : WebViewOverride):WebViewOverride{
         webView.settings.javaScriptEnabled = true
         webView.scrollBarStyle = WebView.SCROLLBARS_OUTSIDE_OVERLAY
@@ -175,7 +192,7 @@ class BrowseFragment : Fragment() {
 
                 override fun onReceive(contxt: Context?, intent: Intent?) {
                     val action = intent?.getAction()
-                    val manager = activity?.getSystemService(AppCompatActivity.DOWNLOAD_SERVICE) as DownloadManager
+                    val manager = activity.getSystemService(AppCompatActivity.DOWNLOAD_SERVICE) as DownloadManager
                     if(DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action) && (downloadId >= 0) ){
                         val query = DownloadManager.Query()
                         query.setFilterById(downloadId)
@@ -214,7 +231,7 @@ class BrowseFragment : Fragment() {
             }
 
             override fun onCreateWindow(view: WebView?, isDialog: Boolean, isUserGesture: Boolean, resultMsg: Message?): Boolean {
-                //newTab(this@MainActivity)
+                //activity.addTab()
                 return super.onCreateWindow(view, isDialog, isUserGesture, resultMsg)
             }
 
@@ -251,7 +268,7 @@ class BrowseFragment : Fragment() {
             }
 
             override fun onProgressChanged(view: WebView, progress: Int) {
-                Log.v("webview " + view.id , "[onProgressChanged triggered]")
+                Log.v("webview " + view.id , "[onProgressChanged triggered]:["+progress.toString()+"]")
                 if (progress < 100) {
                     rootView.progressL.visibility = ProgressBar.VISIBLE
                     rootView.progressL.progress = progress
@@ -346,7 +363,8 @@ class BrowseFragment : Fragment() {
             }
         })
 
-
+        webView.settings.setUseWideViewPort(true)
+        webView.settings.setLoadWithOverviewMode(true)
         return webView
     }
 }

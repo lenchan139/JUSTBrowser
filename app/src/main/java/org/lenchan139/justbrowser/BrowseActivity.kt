@@ -19,6 +19,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
+import android.support.v4.view.ViewPager
 import android.support.v7.app.AlertDialog
 import android.text.TextUtils
 import android.util.Log
@@ -60,8 +61,7 @@ class BrowseActivity : AppCompatActivity() {
         list.add(BROWSE_ITEM_KEYSTRING)
         browseAdapter = BrowseStateFragmentPageApdapter(supportFragmentManager,list)
         viewPager.adapter = browseAdapter
-
-
+        initViewPageOnChangeListener()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark))
         }
@@ -212,12 +212,12 @@ class BrowseActivity : AppCompatActivity() {
         val inUrl = intent.getStringExtra(getString(R.string.KEY_INURL_INTENT))
         var InURLFromExternal = intent.getBooleanExtra("InURLFromExternal",false)
         if(InURLFromExternal){
-            browseAdapter.add(BROWSE_ITEM_KEYSTRING)
-            intent.putExtra("InURLFromExternal",false)
-        }
-        if (inUrl != null) {
+            addTab()
             editText.setText(inUrl)
-            //newTab(this)
+            loadUrlFromEditTextToFragment()
+            intent.putExtra("InURLFromExternal",false)
+        }else if (inUrl != null) {
+            editText.setText(inUrl)
             loadUrlFromEditTextToFragment()
         } else {
             super.onNewIntent(intent)
@@ -320,22 +320,7 @@ class BrowseActivity : AppCompatActivity() {
         editText.setText(arrBrowseFragment.get(viewPager.currentItem).rootView.webView.url)
     }
     fun loadUrlFromEditTextToFragment() {
-        var webView = arrBrowseFragment.get(viewPager.currentItem)
-        val temp = editText.text.toString().trim { it <= ' ' }
-        if (temp.startsWith("javascript:")) {
-            webView.loadUrl(temp)
-            editText.setText(webView.getWebUrl())
-
-        } else if (temp.startsWith("https://") || temp.startsWith("http://")) {
-            webView.loadUrl(temp)
-        } else if (temp.indexOf(":") >= 1) {
-            runToExternal(temp)
-        } else if (!(temp.contains(".") && !temp.contains(" "))) {
-            webView.loadUrl(settings.getString(commonStrings.TAG_pref_Search_Engine_Url(),
-                    commonStrings.ARRAY_pref_Search_Engine_Default().get(0).url).replace("!@keywoard",temp))
-        } else {
-            webView.loadUrl("http://" + temp)
-        }
+        arrBrowseFragment.get(viewPager.currentItem).webView.loadUrl(editText.text.toString())
 
 
     }
@@ -416,7 +401,21 @@ class BrowseActivity : AppCompatActivity() {
 
         }
     }
+    fun initViewPageOnChangeListener(){
+        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
+            override fun onPageScrollStateChanged(state: Int) {
+            }
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+
+            }
+            override fun onPageSelected(position: Int) {
+                updateEditTextFromCurrentPage()
+            }
+
+        })
+    }
     fun permissionChecker(){
         try {
             if (ContextCompat.checkSelfPermission(this@BrowseActivity,
