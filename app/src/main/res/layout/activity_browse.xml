@@ -67,36 +67,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/tabBarFind"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-
-            <Button
-                android:id="@+id/btnFindBack"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="9999"
-                android:text="previous" />
-
-            <Button
-                android:id="@+id/btnFindClose"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="9999"
-                android:text="Close" />
-
-            <Button
-                android:id="@+id/btnFindForward"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="9999"
-                android:text="next" />
-
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

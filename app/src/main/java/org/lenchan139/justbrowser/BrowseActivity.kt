@@ -91,16 +91,7 @@ class BrowseActivity : AppCompatActivity() {
             startActivity(intent)
             arrBrowseFragment.get(viewPager.currentItem).rootView.webView.requestFocus()
         }
-        btnFindBack.setOnClickListener {
-            getCurrentFragment().webView.findNext(false)
-        }
-        btnFindForward.setOnClickListener {
-            getCurrentFragment().webView.findNext(true)
-        }
-        btnFindClose.setOnClickListener {
-            tabBarFind.visibility = View.GONE
-        }
-        tabBarFind.visibility = View.GONE
+
         editText.isFocusable = false
     }
 
@@ -306,8 +297,7 @@ class BrowseActivity : AppCompatActivity() {
             if(editText.text == null){
 
             } else {
-                getCurrentFragment().webView.findAllAsync(editText.text.toString())
-                tabBarFind.visibility = View.VISIBLE
+                getCurrentFragment().startFindContent(editText.text.toString())
 
             }
         })
@@ -315,7 +305,6 @@ class BrowseActivity : AppCompatActivity() {
 
         dialog.create().show()
     }
-
     fun updateEditTextFromCurrentPage(section_number:Int, url:String?):Boolean{
         if(section_number == viewPager.currentItem){
             editText.setText(url)

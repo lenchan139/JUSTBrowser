@@ -65,7 +65,7 @@ class BrowseFragment : Fragment() {
             isInit = true
         }
         webView = initWebView(rootView.webView)
-
+        initFindContents()
         return rootView
     }
 
@@ -103,12 +103,38 @@ class BrowseFragment : Fragment() {
         super.onDestroy()
         activity.arrBrowseFragment.remove(this)
     }
-
+    fun initFindContents(){
+        rootView.btnFindBack.setOnClickListener {
+            findPrevious()
+        }
+        rootView.btnFindForward.setOnClickListener {
+            findNext()
+        }
+        rootView.btnFindClose.setOnClickListener {
+            endFindContent()
+        }
+        rootView.tabBarFind.visibility = View.GONE
+    }
     fun getWebTitle():String{
         return webView.title
     }
     fun getWebUrl():String{
         return webView.url
+    }
+    fun startFindContent(keyword:String){
+        webView.findAllAsync(keyword)
+        rootView.tabBarFind.visibility = View.VISIBLE
+
+    }
+    fun endFindContent(){
+        rootView.tabBarFind.visibility = View.GONE
+        webView.findAllAsync("")
+    }
+    fun findNext(){
+        webView.findNext(true)
+    }
+    fun findPrevious(){
+        webView.findNext(false)
     }
     fun loadUrl (url:String){
         val temp = url.trim { it <= ' ' }
