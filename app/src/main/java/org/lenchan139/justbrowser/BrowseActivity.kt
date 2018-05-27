@@ -44,7 +44,7 @@ class BrowseActivity : AppCompatActivity() {
     val BROWSE_ITEM_KEYSTRING = "BROWSE_ITEM_KEYSTRING"
     lateinit var browseAdapter : BrowseStateFragmentPageApdapter
     var arrBrowseFragment = ArrayList<BrowseFragment>()
-
+    var incomeUrlOnStart : String? = null
     lateinit var settings : SharedPreferences
     lateinit var commonStrings : CommonStrings
 
@@ -62,6 +62,7 @@ class BrowseActivity : AppCompatActivity() {
         browseAdapter = BrowseStateFragmentPageApdapter(supportFragmentManager,list)
         viewPager.adapter = browseAdapter
         initViewPageOnChangeListener()
+        incomeUrlOnStart = intent.getStringExtra("inUrl")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark))
         }

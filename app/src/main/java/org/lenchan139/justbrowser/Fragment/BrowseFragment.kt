@@ -93,7 +93,10 @@ class BrowseFragment : Fragment() {
             webView.restoreState(webViewState);
         } else if (savedInstanceState != null) {
             webView.restoreState(savedInstanceState);
-        } else {
+        } else if(activity.incomeUrlOnStart != null){
+            loadUrl(activity.incomeUrlOnStart!!)
+            activity.incomeUrlOnStart = null
+        }else{
             loadUrl(homeUrl)
         }
     }
