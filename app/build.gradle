@@ -8,8 +8,8 @@ android {
         applicationId 'org.lenchan139.justbrowser'
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 4
-        versionName 'v4'
+        versionCode 5
+        versionName 'v5'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -30,6 +30,10 @@ android {
         checkReleaseBuilds false
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
 }
 
 dependencies {
