@@ -106,6 +106,7 @@ class BrowseFragment : Fragment() {
         super.onDestroy()
         activity.arrBrowseFragment.remove(this)
     }
+
     fun initFindContents(){
         rootView.btnFindBack.setOnClickListener {
             findPrevious()
