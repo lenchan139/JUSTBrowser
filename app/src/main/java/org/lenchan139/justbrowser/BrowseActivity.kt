@@ -62,7 +62,7 @@ class BrowseActivity : AppCompatActivity() {
         browseAdapter = BrowseStateFragmentPageApdapter(supportFragmentManager,list)
         viewPager.adapter = browseAdapter
         initViewPageOnChangeListener()
-        incomeUrlOnStart = intent.getStringExtra("inUrl")
+        incomeUrlOnStart = intent.getStringExtra(getString(R.string.KEY_INURL_INTENT))
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark))
         }
