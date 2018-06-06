@@ -96,6 +96,13 @@ class BrowseActivity : AppCompatActivity() {
         editText.isFocusable = false
     }
 
+    override fun onBackPressed() {
+        if (arrBrowseFragment.get(browseAdapter.currentPosition).getCurrWebView().canGoBack()) {
+            arrBrowseFragment.get(browseAdapter.currentPosition).getCurrWebView().goBack()
+        } else {
+            exitDialog()
+        }
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -176,6 +183,58 @@ class BrowseActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+
+    override fun onKeyLongPress(keyCode: Int, event: KeyEvent): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            val tempWebiew = arrBrowseFragment.get(browseAdapter.currentPosition).getCurrWebView()
+            val webList = tempWebiew.copyBackForwardList()
+
+            //create String[] for showing
+            val items = arrayOfNulls<String>(webList.size)
+            //store list to string[] with reverse sorting
+            for (i in 0..webList.size - 1) {
+                var temp = webList.getItemAtIndex(webList.size - 1 - i).title
+                //handling if current tab
+                if (i == webList.size - 1 - webList.currentIndex) {
+                    //Log.v("test",String.valueOf(webList.getSize() -1 - webList.getCurrentIndex()) );
+                    temp = "◆" + temp
+                } else {
+                    temp = "◇" + temp
+                }
+
+                if (temp.length > 50) {
+                    temp = temp.substring(0, 50) + " ..."
+                }
+                //if title too short, use url instead
+                if (temp.length > 3) {
+                    items[i] = temp
+                } else {
+                    items[i] = temp
+                }
+            }
+
+            val dialog = AlertDialog.Builder(this).setTitle("History:")
+                    .setItems(items) { dialog, which ->
+                        var which = which
+                        //Toast.makeText(MainActivity.this, items[which], Toast.LENGTH_SHORT).show();
+                        if (which >= 0) {
+                            //reverse the number
+                            which = webList.size - 1 - which
+                            val pushingUrl = webList.getItemAtIndex(which).url
+                            //int a1 = which - webView.copyBackForwardList().getCurrentIndex();
+                            //Log.v("test", String.valueOf(a1));
+                            tempWebiew.goBackOrForward(which - tempWebiew.copyBackForwardList().currentIndex)
+                            //webView.loadUrl(pushingUrl);
+
+
+                        }
+                    }.create()
+            dialog.show()
+
+            return true
+        }
+        return super.onKeyLongPress(keyCode, event)
+    }
     override fun onPostResume() {
         super.onPostResume()
         initFabButton()
