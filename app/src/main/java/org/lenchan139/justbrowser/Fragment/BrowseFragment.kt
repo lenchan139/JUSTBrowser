@@ -50,6 +50,7 @@ class BrowseFragment : Fragment() {
     lateinit var webView : WebViewOverride
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        Log.v("fragmentLifeCycle",this.toString() + "onCreateView")
         rootView = inflater.inflate(R.layout.fragment_browse, container, false)
         activity = getActivity() as BrowseActivity
         commonStrings = CommonStrings(activity)
@@ -70,22 +71,26 @@ class BrowseFragment : Fragment() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
+        Log.v("fragmentLifeCycle",this.toString() + "onSaveInstanceState")
         super.onSaveInstanceState(outState)
         webView.saveState(outState)
         Icepick.saveInstanceState(this,outState)
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        Log.v("fragmentLifeCycle",this.toString() + "onViewStateRestored")
         super.onViewStateRestored(savedInstanceState)
     }
 
     override fun onPause() {
+        Log.v("fragmentLifeCycle",this.toString() + "onPause")
         super.onPause()
         webViewState = Bundle()
         webView.saveState(webViewState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Log.v("fragmentLifeCycle",this.toString() + "onViewCreated")
         super.onViewCreated(view, savedInstanceState)
         val homeUrl = settings.getString(commonStrings.TAG_pref_home(), commonStrings.URL_DDG())
 
@@ -101,11 +106,22 @@ class BrowseFragment : Fragment() {
         }
     }
 
-
     override fun onDestroy() {
+        Log.v("fragmentLifeCycle",this.toString() + "onDestroy")
         super.onDestroy()
-        activity.arrBrowseFragment.remove(this)
     }
+
+    override fun onDestroyView() {
+        Log.v("fragmentLifeCycle",this.toString() + "onDestroyView")
+        super.onDestroyView()
+    }
+
+    override fun onDetach() {
+        Log.v("fragmentLifeCycle",this.toString() + "onDetach")
+        activity.arrBrowseFragment.remove(this)
+        super.onDetach()
+    }
+
     fun initFindContents(){
         rootView.btnFindBack.setOnClickListener {
             findPrevious()
