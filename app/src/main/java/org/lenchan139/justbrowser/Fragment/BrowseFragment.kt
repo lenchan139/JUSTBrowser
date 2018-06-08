@@ -1,5 +1,6 @@
 package org.lenchan139.justbrowser.Fragment
 
+import android.app.Activity
 import android.app.DownloadManager
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -87,6 +88,11 @@ class BrowseFragment : Fragment() {
         super.onPause()
         webViewState = Bundle()
         webView.saveState(webViewState)
+    }
+
+    override fun onAttach(activity: Activity?) {
+        Log.v("fragmentLifeCycle",this.toString() + "onAttach")
+        super.onAttach(activity)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -339,10 +345,10 @@ class BrowseFragment : Fragment() {
                 loadingFinish = false
                 super.onPageStarted(view, url, favicon)
                 webView.requestFocus()
-                activity.updateEditTextFromCurrentPage(section_number,url)
                 Log.v("onPageLoadUrl",url)
                 if (isUrlVaildRedirect(url!!)) {
                     //addToBack(url);
+                    activity.updateEditTextFromCurrentPage(section_number,url)
                 } else {
                     back = true
                     view!!.stopLoading()
