@@ -339,9 +339,10 @@ class BrowseFragment : Fragment() {
                 loadingFinish = false
                 super.onPageStarted(view, url, favicon)
                 webView.requestFocus()
+                activity.updateEditTextFromCurrentPage(section_number,url)
                 Log.v("onPageLoadUrl",url)
                 if (isUrlVaildRedirect(url!!)) {
-                    activity.updateEditTextFromCurrentPage(section_number,url)
+                    //addToBack(url);
                 } else {
                     back = true
                     view!!.stopLoading()
