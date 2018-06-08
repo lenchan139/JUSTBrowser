@@ -366,13 +366,8 @@ class BrowseActivity : AppCompatActivity() {
         dialog.create().show()
     }
     fun updateEditTextFromCurrentPage(section_number:Int, url:String?):Boolean{
-        if(section_number == viewPager.currentItem){
-            editText.setText(url)
-            return true
-        }else{
-            return false
-        }
-
+        editText.setText(arrBrowseFragment.get(viewPager.currentItem).getWebUrl())
+        return true
     }
     fun loadUrlFromEditTextToFragment() {
         arrBrowseFragment.get(viewPager.currentItem).loadUrl(editText.text.toString())
