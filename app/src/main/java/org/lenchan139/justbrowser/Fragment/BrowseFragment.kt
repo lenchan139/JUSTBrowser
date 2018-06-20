@@ -44,10 +44,12 @@ class BrowseFragment : Fragment() {
     lateinit var settings : SharedPreferences
     lateinit var commonStrings : CommonStrings
     lateinit var activity : BrowseActivity
+    var jsConsoleLog = ""
     var section_number: Int = -1
     private var back = false
     var webViewState : Bundle? = null
     var isInit = false
+
     lateinit var webView : WebViewOverride
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -277,6 +279,13 @@ class BrowseFragment : Fragment() {
             override fun onCloseWindow(window: WebView) {
                 activity.onBackPressed()
                 super.onCloseWindow(window)
+            }
+
+            override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
+                return super.onConsoleMessage(consoleMessage)
+                if(consoleMessage != null) {
+                    jsConsoleLog += consoleMessage!!.message() + " -- From line " + consoleMessage.lineNumber() + " of "+consoleMessage.sourceId() + "\n"
+                }
             }
 
             override fun onCreateWindow(view: WebView?, isDialog: Boolean, isUserGesture: Boolean, resultMsg: Message?): Boolean {

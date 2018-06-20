@@ -76,6 +76,12 @@
                 android:visible="true"
                 app:showAsAction="never" />
 
+            <item android:id="@+id/menu_jslog"
+                android:title="Javascript Logs"
+                android:orderInCategory="100"
+                android:visible="true"
+                app:showAsAction="never" />
+
         </menu>
     </item>
     <item android:id="@+id/action_settings"

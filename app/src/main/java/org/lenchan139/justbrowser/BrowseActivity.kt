@@ -7,8 +7,6 @@ import android.support.v7.app.AppCompatActivity
 
 import android.support.v4.app.Fragment
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -23,10 +21,11 @@ import android.support.v4.view.ViewPager
 import android.support.v7.app.AlertDialog
 import android.text.TextUtils
 import android.util.Log
-import android.view.KeyEvent
-import android.view.View
+import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.webkit.ValueCallback
+import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.Toast
 
 import kotlinx.android.synthetic.main.activity_browse.*
@@ -97,8 +96,8 @@ class BrowseActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (arrBrowseFragment.get(browseAdapter.currentPosition).getCurrWebView().canGoBack()) {
-            arrBrowseFragment.get(browseAdapter.currentPosition).getCurrWebView().goBack()
+        if (arrBrowseFragment.get(viewPager.currentItem).getCurrWebView().canGoBack()) {
+            arrBrowseFragment.get(viewPager.currentItem).getCurrWebView().goBack()
         } else {
             exitDialog()
         }
@@ -179,6 +178,19 @@ class BrowseActivity : AppCompatActivity() {
         }else if(id == R.id.menu_desktop_mode_switch){
             getCurrentFragment().webView.setDesktopMode(!getCurrentFragment().webView.getDesktopModeStatus())
             getCurrentFragment().webView.reload()
+        }else if(id == R.id.menu_jslog){
+            val dialog = AlertDialog.Builder(this@BrowseActivity)
+            val edittext = EditText(this@BrowseActivity)
+            val jsLog = getCurrentFragment().jsConsoleLog
+            edittext.setText(jsLog)
+            edittext.isEnabled = false
+            edittext.setSingleLine(false)
+            edittext.minLines = 5
+            edittext.maxLines = 9999
+            dialog.setView(edittext)
+            dialog.show()
+
+
         }
         return super.onOptionsItemSelected(item)
     }
@@ -530,7 +542,7 @@ class BrowseActivity : AppCompatActivity() {
             val packageName = resolveInfo.activityInfo.packageName
             val targetedShareIntent = Intent(Intent.ACTION_VIEW,Uri.parse(url))
             targetedShareIntent.setPackage(packageName)
-            if(!packageName.contains("org.lenchan139.lightbrowser")){
+            if(!packageName.contains(applicationContext.packageName)){
                 targetedShareIntents.add(targetedShareIntent)
                 Log.v("listVTureFalse","True")
             }
