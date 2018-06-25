@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.*
 import android.support.v7.app.AppCompatActivity
 
-import android.support.v4.app.Fragment
 import android.os.Bundle
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -13,8 +12,6 @@ import android.os.Build
 import android.preference.PreferenceManager
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.ActivityCompat
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
 import android.support.v4.view.ViewPager
@@ -25,11 +22,9 @@ import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.webkit.ValueCallback
 import android.widget.EditText
-import android.widget.LinearLayout
 import android.widget.Toast
 
 import kotlinx.android.synthetic.main.activity_browse.*
-import kotlinx.android.synthetic.main.fragment_browse.*
 import kotlinx.android.synthetic.main.fragment_browse.view.*
 import org.lenchan139.justbrowser.Adapter.BrowseStateFragmentPageApdapter
 import org.lenchan139.justbrowser.Class.*
@@ -42,6 +37,7 @@ class BrowseActivity : AppCompatActivity() {
     var mUploadMessage: ValueCallback<Array<Uri>>? = null
     val BROWSE_ITEM_KEYSTRING = "BROWSE_ITEM_KEYSTRING"
     lateinit var browseAdapter : BrowseStateFragmentPageApdapter
+    lateinit var adBlock : AdBlocker
     var arrBrowseFragment = ArrayList<BrowseFragment>()
     var incomeUrlOnStart : String? = null
     lateinit var settings : SharedPreferences
@@ -55,6 +51,7 @@ class BrowseActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
         commonStrings = CommonStrings(this)
         settings = PreferenceManager.getDefaultSharedPreferences(this)
+        adBlock = AdBlocker.getInstance(this)
 
         val list = ArrayList<String>()
         list.add(BROWSE_ITEM_KEYSTRING)
@@ -250,8 +247,12 @@ class BrowseActivity : AppCompatActivity() {
     override fun onPostResume() {
         super.onPostResume()
         initFabButton()
+        reloadAdblockPreferce()
     }
-
+    fun reloadAdblockPreferce(){
+        val isAdBlockEnabled = settings.getBoolean(commonStrings.TAG_pref_enable_adblocker(),true)
+        adBlock.setAdblockEnabled(isAdBlockEnabled)
+    }
     fun delTabDialog(activity: Activity){
         updateSwitchCount()
         var items = Array<String>(arrBrowseFragment.size, { "" })

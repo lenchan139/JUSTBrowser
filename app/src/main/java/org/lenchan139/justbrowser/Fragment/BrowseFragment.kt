@@ -404,9 +404,27 @@ class BrowseFragment : Fragment() {
                 super.onPageFinished(view, url)
             }
 
+            override fun onLoadResource(view: WebView?, url: String?) {
+                super.onLoadResource(view, url)
+
+            }
+
+
+            override fun shouldInterceptRequest(view: WebView?, request: WebResourceRequest?): WebResourceResponse? {
+                Log.v("idAdBlocked", request!!.url.toString() + " | " + activity.adBlock.isAd(request!!.url.toString()).toString())
+                if(activity.adBlock.isAd(request!!.url.toString())){
+                    val wr =  WebResourceResponse("", "", null)
+                    return wr
+                }
+                return super.shouldInterceptRequest(view, request.url.toString())
+            }
+
             override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
                 Log.v("loadingUrl",request!!.url.toString())
-                return !(isUrlVaildRedirect(request!!.url.toString()))
+                val isVaildRedirect = isUrlVaildRedirect(request!!.url.toString())
+
+
+                return !isVaildRedirect
             }
 
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {

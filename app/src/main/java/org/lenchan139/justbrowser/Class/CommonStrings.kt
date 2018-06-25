@@ -29,7 +29,9 @@ class CommonStrings constructor(context:Context) {
     fun TAG_pref_home(): String {
         return "org.lenchan139.lightbrowser.Home"
     }
-
+    fun TAG_pref_enable_adblocker():String{
+        return "org.lenchan139.lightbrowser.TAG_pref_adblock_switch"
+    }
     fun TAG_pref_fab(): String {
         return "org.lenchan139.lightbrowser.Fab"
     }

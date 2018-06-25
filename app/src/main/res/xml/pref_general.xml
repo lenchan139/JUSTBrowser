@@ -51,4 +51,10 @@
         android:positiveButtonText="@null"
         android:title="Search Engine" />
 
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="org.lenchan139.lightbrowser.TAG_pref_adblock_switch"
+        android:summary="Enable AdBlocker"
+        android:title="Enable AdBlocker" />
+
 </PreferenceScreen>
